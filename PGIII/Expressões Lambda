@@ -1,0 +1,171 @@
+Em Java, expressões lambda são uma maneira concisa de representar uma função anônima (sem nome), o que permite que você escreva código de forma mais compacta e funcional. Elas foram introduzidas no Java 8 e são amplamente utilizadas com interfaces funcionais (interfaces que têm um único método abstrato).
+
+Vamos ver como funcionam as expressões lambda, e quais são os métodos mais comuns e suas aplicações.
+
+1. Sintaxe Básica da Lambda
+A sintaxe básica de uma expressão lambda é a seguinte:
+
+java
+Copiar código
+(parâmetros) -> expressão ou bloco de código
+Parâmetros: os parâmetros da função (se houver).
+->: O operador "seta" que separa os parâmetros da expressão.
+Expressão ou bloco de código: O corpo da lambda, que pode ser uma expressão simples ou um bloco de código mais complexo.
+Exemplos simples de expressões lambda:
+Sem parâmetros:
+
+java
+Copiar código
+Runnable r = () -> System.out.println("Hello, World!");
+r.run(); // Chama o método run() que imprime "Hello, World!"
+Com parâmetros:
+
+java
+Copiar código
+(int a, int b) -> a + b;
+Com um único parâmetro (sem parênteses): Se houver apenas um parâmetro, você pode omitir os parênteses.
+
+java
+Copiar código
+x -> x * x; // Retorna o quadrado do número
+2. Exemplo de Uso com Coleções
+As expressões lambda são muito usadas com as Streams API e métodos de coleções, como forEach, map, filter, entre outros.
+
+Exemplo: Usando forEach com Lambda
+java
+Copiar código
+import java.util.List;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> nomes = Arrays.asList("Ana", "João", "Carlos");
+        
+        // Usando lambda para imprimir cada nome
+        nomes.forEach(nome -> System.out.println(nome));
+    }
+}
+Aqui, o forEach recebe uma expressão lambda que define o que fazer com cada item da lista.
+
+Exemplo: Usando filter com Lambda
+java
+Copiar código
+import java.util.List;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> numeros = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+        // Filtra os números pares usando uma expressão lambda
+        numeros.stream()
+               .filter(num -> num % 2 == 0)
+               .forEach(num -> System.out.println(num)); // Saída: 2, 4, 6
+    }
+}
+3. Interfaces Funcionais e Métodos Comuns
+Uma interface funcional é uma interface que tem apenas um método abstrato. Isso pode ser uma ótima maneira de usar lambdas. Existem várias interfaces funcionais embutidas na biblioteca padrão de Java.
+
+Principais Interfaces Funcionais:
+Predicate<T>: Representa uma condição ou teste booleano.
+
+Método: boolean test(T t)
+Exemplo:
+java
+Copiar código
+Predicate<Integer> isEven = x -> x % 2 == 0;
+System.out.println(isEven.test(4)); // true
+System.out.println(isEven.test(5)); // false
+Function<T, R>: Representa uma função que recebe um argumento e retorna um resultado.
+
+Método: R apply(T t)
+Exemplo:
+java
+Copiar código
+Function<String, Integer> length = s -> s.length();
+System.out.println(length.apply("Java")); // 4
+Consumer<T>: Representa uma operação que consome um único argumento e não retorna nada (geralmente usado para efeitos colaterais).
+
+Método: void accept(T t)
+Exemplo:
+java
+Copiar código
+Consumer<String> print = s -> System.out.println(s);
+print.accept("Hello, Lambda!"); // "Hello, Lambda!"
+Supplier<T>: Representa um fornecedor de resultados. Ele não aceita parâmetros e retorna um valor.
+
+Método: T get()
+Exemplo:
+java
+Copiar código
+Supplier<Double> randomValue = () -> Math.random();
+System.out.println(randomValue.get()); // Gera um número aleatório
+UnaryOperator<T>: Uma especialização de Function<T, R> onde a entrada e saída são do mesmo tipo.
+
+Método: T apply(T t)
+Exemplo:
+java
+Copiar código
+UnaryOperator<Integer> doubleValue = x -> x * 2;
+System.out.println(doubleValue.apply(5)); // 10
+BinaryOperator<T>: Uma especialização de BiFunction<T, U, R> onde os dois argumentos e o resultado são do mesmo tipo.
+
+Método: T apply(T t1, T t2)
+Exemplo:
+java
+Copiar código
+BinaryOperator<Integer> add = (a, b) -> a + b;
+System.out.println(add.apply(5, 3)); // 8
+4. Métodos Comuns para Usar com Lambdas
+map (Transformação)
+Usado para transformar os elementos de um stream.
+
+java
+Copiar código
+List<Integer> numeros = Arrays.asList(1, 2, 3, 4);
+List<Integer> quadrados = numeros.stream()
+                                 .map(n -> n * n)
+                                 .collect(Collectors.toList());
+System.out.println(quadrados); // [1, 4, 9, 16]
+filter (Filtragem)
+Usado para filtrar elementos com base em uma condição.
+
+java
+Copiar código
+List<Integer> numeros = Arrays.asList(1, 2, 3, 4, 5);
+List<Integer> pares = numeros.stream()
+                             .filter(n -> n % 2 == 0)
+                             .collect(Collectors.toList());
+System.out.println(pares); // [2, 4]
+reduce (Redução)
+Usado para reduzir todos os elementos de um stream a um único valor (por exemplo, soma, produto, etc).
+
+java
+Copiar código
+List<Integer> numeros = Arrays.asList(1, 2, 3, 4, 5);
+int soma = numeros.stream()
+                  .reduce(0, (a, b) -> a + b); // Soma os elementos
+System.out.println(soma); // 15
+5. Exemplo Completo com Vários Métodos Lambda
+java
+Copiar código
+import java.util.List;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> palavras = Arrays.asList("Java", "Python", "JavaScript", "C++");
+
+        // Filtra palavras que têm mais de 4 caracteres, converte para maiúsculas e imprime
+        palavras.stream()
+                .filter(palavra -> palavra.length() > 4) // Filtra palavras com mais de 4 caracteres
+                .map(palavra -> palavra.toUpperCase())  // Converte para maiúsculas
+                .forEach(palavra -> System.out.println(palavra)); // Imprime
+    }
+}
+Saída:
+
+Copiar código
+JAVA
+PYTHON
+JAVASCRIPT
