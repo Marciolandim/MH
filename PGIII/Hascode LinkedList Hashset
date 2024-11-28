@@ -1,0 +1,110 @@
+
+Vamos explorar o funcionamento de quatro importantes coleções da linguagem Java: HashSet, LinkedHashSet, TreeSet e LinkedList. Cada uma tem suas características e usos específicos. Abaixo, explico o que cada uma faz e como elas funcionam.
+
+1. HashSet
+Classe: java.util.HashSet
+Interface: Set
+Objetivo: Armazenar elementos únicos, sem garantir qualquer ordem específica.
+Como funciona o HashSet:
+Estrutura Interna: Internamente, o HashSet utiliza uma tabela de hash (implementada pelo HashMap), que associa cada elemento a um índice calculado pelo método hashCode() do objeto.
+Propriedades:
+Sem duplicatas: Não permite elementos duplicados. Se você tentar adicionar um elemento que já existe no conjunto, ele será ignorado.
+Sem ordem definida: Não mantém a ordem de inserção. A ordem dos elementos pode ser diferente da ordem em que foram inseridos.
+Rápido: As operações básicas (inserção, busca, remoção) têm complexidade média de O(1), ou seja, são muito rápidas.
+Exemplo:
+
+import java.util.HashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        HashSet<String> set = new HashSet<>();
+        set.add("A");
+        set.add("B");
+        set.add("C");
+        set.add("A"); // Ignorado, porque "A" já existe
+
+        System.out.println(set); // Exemplo de saída: [A, B, C] (ordem não garantida)
+    }
+}
+
+2. LinkedHashSet
+Classe: java.util.LinkedHashSet
+Interface: Set
+Objetivo: Armazenar elementos únicos como o HashSet, mas mantendo a ordem de inserção.
+Como funciona o LinkedHashSet:
+Estrutura Interna: O LinkedHashSet utiliza uma tabela de hash (semelhante ao HashSet), mas também mantém uma lista duplamente ligada para armazenar a ordem de inserção dos elementos.
+Propriedades:
+Sem duplicatas: Assim como o HashSet, não permite elementos duplicados.
+Mantém a ordem de inserção: A ordem dos elementos será a mesma em que foram inseridos no conjunto.
+Rápido: A complexidade das operações básicas é geralmente O(1), mas pode ser um pouco mais lenta que o HashSet devido à lista ligada adicional.
+Exemplo:
+
+
+import java.util.LinkedHashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedHashSet<String> set = new LinkedHashSet<>();
+        set.add("A");
+        set.add("B");
+        set.add("C");
+        set.add("A"); // Ignorado, porque "A" já existe
+
+        System.out.println(set); // Saída: [A, B, C] (ordem preservada)
+    }
+}
+3. TreeSet
+Classe: java.util.TreeSet
+Interface: NavigableSet (extends SortedSet)
+Objetivo: Armazenar elementos únicos, garantindo que eles estejam em ordem (por padrão, ordem natural, mas pode ser customizada com um comparador).
+Como funciona o TreeSet:
+Estrutura Interna: O TreeSet é implementado por uma árvore balanceada (geralmente uma árvore de pesquisa binária balanceada, como a árvore Red-Black).
+Propriedades:
+Sem duplicatas: Não permite elementos duplicados.
+Ordem garantida: Os elementos são armazenados em ordem crescente, de acordo com a ordem natural dos elementos (ou com um comparador se fornecido).
+Mais lento que o HashSet e LinkedHashSet: As operações como inserção, remoção e busca têm complexidade O(log n), já que a árvore precisa ser mantida balanceada.
+Exemplo:
+
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeSet<Integer> set = new TreeSet<>();
+        set.add(3);
+        set.add(1);
+        set.add(2);
+        set.add(3); // Ignorado, porque 3 já existe
+
+        System.out.println(set); // Saída: [1, 2, 3] (ordenado)
+    }
+}
+4. LinkedList
+Classe: java.util.LinkedList
+Interface: List, Deque
+Objetivo: Implementação de uma lista que mantém a ordem de inserção dos elementos e permite fácil inserção e remoção de elementos em qualquer posição.
+Como funciona o LinkedList:
+Estrutura Interna: O LinkedList é uma lista duplamente ligada, o que significa que cada elemento (ou "nó") possui referências para o próximo e o anterior.
+Propriedades:
+Permite duplicatas: Pode armazenar elementos duplicados, pois implementa a interface List.
+Ordem de inserção: Os elementos são armazenados e retornados na ordem em que foram inseridos.
+Operações eficientes em extremidades: A inserção e remoção de elementos no início ou no final da lista são rápidas (complexidade O(1)).
+Mais lento para acessar elementos no meio: A busca por um elemento em uma posição intermediária pode ter complexidade O(n), pois a lista precisa ser percorrida.
+Exemplo:
+
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        System.out.println(list); // Saída: [A, B, C]
+        
+        list.addFirst("X");  // Adiciona no início
+        list.addLast("Y");   // Adiciona no final
+
+        System.out.println(list); // Saída: [X, A, B, C, Y]
+    }
+}
