@@ -1,0 +1,18 @@
+O :: permite referenciar um método ou um construtor existente e usá-lo como uma função. Ele basicamente liga o nome de uma classe, objeto ou tipo ao método correspondente.
+
+return getSorted(words, (str1, str2) -> str2.compareToIgnoreCase(str1), LinkedList::new);
+
+É igual a fazer:
+return getSorted(words, 
+    (str1, str2) -> str2.compareToIgnoreCase(str1), 
+    new Supplier<LinkedList<String>>() {
+        @Override
+        public LinkedList<String> get() {
+            return new LinkedList<>();
+        }
+    }
+);
+
+ou:
+() -> new LinkedList<>()
+return getSorted(words, (str1, str2) -> str2.compareToIgnoreCase(str1), () -> new LinkedList<>());
