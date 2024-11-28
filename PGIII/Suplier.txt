@@ -1,1 +1,95 @@
+No Java, o Supplier é uma interface funcional introduzida no Java 8 que pertence ao pacote java.util.function. Sua principal característica é fornecer um valor, ou seja, gerar um resultado, sem receber qualquer entrada. É uma interface funcional genérica que você pode usar para criar fontes de dados ou valores sob demanda.
+
+A assinatura da interface é a seguinte:
+
+@FunctionalInterface
+public interface Supplier<T> {
+    T get();
+}
+
+Principais características:
+Método funcional: get() - É o único método abstrato que precisa ser implementado. Ele retorna um valor do tipo genérico T.
+Sem entrada: O método get() não aceita argumentos.
+Uso típico: Criar valores, instâncias, ou encapsular lógica para gerar dados.
+
+Exemplos de uso:
+1. Retornar um valor fixo
+java:
+
+
+import java.util.function.Supplier;
+
+public class SupplierExample {
+    public static void main(String[] args) {
+        Supplier<String> stringSupplier = () -> "Olá, Supplier!";
+        System.out.println(stringSupplier.get()); // Saída: Olá, Supplier!
+    }
+}
+
+
+
+2. Gerar valores dinâmicos
+java
+Copiar código
+import java.util.function.Supplier;
+import java.util.Random;
+
+public class SupplierExample {
+    public static void main(String[] args) {
+        Supplier<Integer> randomSupplier = () -> new Random().nextInt(100); // Gera um número aleatório entre 0 e 99
+
+        System.out.println(randomSupplier.get()); // Exemplo de saída: 42
+        System.out.println(randomSupplier.get()); // Exemplo de saída: 87
+    }
+}
+
+
+
+3. Usar com streams
+Em APIs de stream, como o método Stream.generate(), você pode usar um Supplier para gerar elementos dinamicamente:
+
+java
+Copiar código
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+public class StreamSupplierExample {
+    public static void main(String[] args) {
+        Supplier<Double> randomSupplier = Math::random;
+
+        Stream<Double> randomStream = Stream.generate(randomSupplier);
+        randomStream.limit(5).forEach(System.out::println); // Exibe 5 números aleatórios
+    }
+}
+
+
+
+4. Retornar objetos complexos
+Você pode usar o Supplier para criar e inicializar objetos complexos.
+
+java
+Copiar código
+import java.util.function.Supplier;
+
+class Pessoa {
+    String nome;
+
+    public Pessoa(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{nome='" + nome + "'}";
+    }
+}
+
+public class SupplierExample {
+    public static void main(String[] args) {
+        Supplier<Pessoa> pessoaSupplier = () -> new Pessoa("João");
+        System.out.println(pessoaSupplier.get()); // Saída: Pessoa{nome='João'}
+    }
+}
+
+
 
